@@ -73,6 +73,15 @@
     }
 }
 
+- (void)testPieceColorEqualsPlayerColor
+{
+    for (RIVPlayer *player in self.gameBoard.players) {
+        for (RIVGamePiece *piece in player.gamePieces) {
+            XCTAssertEqual(piece.color, player.color, @"player color should equal the color of every piece the player has");
+        }
+    }
+}
+
 @end
 
 

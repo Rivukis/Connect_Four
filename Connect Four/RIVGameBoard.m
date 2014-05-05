@@ -16,11 +16,11 @@
 {
     self = [super init];
     if (self) {
-        RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:[UIColor blackColor]];
-        RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:[UIColor redColor]];
+        RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:[UIColor blackColor] andPieceCount:21];
+        RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:[UIColor redColor] andPieceCount:21];
         self.players = @[firstPlayer, secondPlayer];
         
-//        self.pieces = 
+        
     }
     return self;
 }
@@ -29,10 +29,17 @@
 {
     if (!_pieces) {
         NSMutableArray *tempArray = [NSMutableArray new];
-        for (NSInteger i = 0; i < 42; i++) {
-            RIVGamePiece *tempPiece = [RIVGamePiece new];
-            [tempArray addObject:tempPiece];
+        
+//        for (NSInteger i = 0; i < 42; i++) {
+//            RIVGamePiece *tempPiece = [RIVGamePiece new];
+//            tempPiece.gameboard = self;
+//            [tempArray addObject:tempPiece];
+//        }
+        
+        for (RIVPlayer *player in self.players) {
+            [tempArray addObjectsFromArray:player.gamePieces];
         }
+        
         _pieces = tempArray;
     }
     

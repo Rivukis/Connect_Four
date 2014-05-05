@@ -7,6 +7,7 @@
 //
 
 #import "RIVPlayer.h"
+#import "RIVGamePiece.h"
 
 @implementation RIVPlayer
 
@@ -15,6 +16,21 @@
     self = [super init];
     if (self) {
         self.color = color;
+    }
+    return self;
+}
+
+- (instancetype)initWithColor:(UIColor *)color andPieceCount:(NSInteger)count
+{
+    self = [super init];
+    if (self) {
+        self.color = color;
+        NSMutableArray *tempPieces = [NSMutableArray new];
+        for (NSInteger i = 0; i < count; i++) {
+            RIVGamePiece *tempPiece = ([color isEqual:[UIColor blackColor]]) ? [RIVGamePiece blackPiece] : [RIVGamePiece redPiece];
+            [tempPieces addObject:tempPiece];
+        }
+        self.gamePieces = tempPieces;
     }
     return self;
 }

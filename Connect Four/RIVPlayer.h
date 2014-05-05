@@ -15,5 +15,7 @@
 @property (readwrite, nonatomic) BOOL isCurrentTurn;
 
 - (instancetype)initWithColor:(UIColor *)color;
+- (instancetype)initWithColor:(UIColor *)color andPieceCount:(NSInteger)count;
+
 
 @end
