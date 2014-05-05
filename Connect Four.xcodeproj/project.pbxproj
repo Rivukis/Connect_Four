@@ -21,6 +21,12 @@
 		7A8CCCDD1917F34C00FDB2B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8CCCBF1917F34C00FDB2B2 /* UIKit.framework */; };
 		7A8CCCE51917F34C00FDB2B2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7A8CCCE31917F34C00FDB2B2 /* InfoPlist.strings */; };
 		7A8CCCE71917F34C00FDB2B2 /* Connect_FourTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCE61917F34C00FDB2B2 /* Connect_FourTests.m */; };
+		7A8CCCF51917F68A00FDB2B2 /* RIVPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCF41917F68A00FDB2B2 /* RIVPlayer.m */; };
+		7A8CCCF61917F68A00FDB2B2 /* RIVPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCF41917F68A00FDB2B2 /* RIVPlayer.m */; };
+		7A8CCCF91917F6A200FDB2B2 /* RIVGameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCF81917F6A200FDB2B2 /* RIVGameBoard.m */; };
+		7A8CCCFA1917F6A200FDB2B2 /* RIVGameBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCF81917F6A200FDB2B2 /* RIVGameBoard.m */; };
+		7A8CCCFD1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCFC1917F6B600FDB2B2 /* RIVGamePiece.m */; };
+		7A8CCCFE1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCFC1917F6B600FDB2B2 /* RIVGamePiece.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +59,12 @@
 		7A8CCCE21917F34C00FDB2B2 /* Connect FourTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Connect FourTests-Info.plist"; sourceTree = "<group>"; };
 		7A8CCCE41917F34C00FDB2B2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7A8CCCE61917F34C00FDB2B2 /* Connect_FourTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Connect_FourTests.m; sourceTree = "<group>"; };
+		7A8CCCF31917F68A00FDB2B2 /* RIVPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RIVPlayer.h; sourceTree = "<group>"; };
+		7A8CCCF41917F68A00FDB2B2 /* RIVPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVPlayer.m; sourceTree = "<group>"; };
+		7A8CCCF71917F6A200FDB2B2 /* RIVGameBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RIVGameBoard.h; sourceTree = "<group>"; };
+		7A8CCCF81917F6A200FDB2B2 /* RIVGameBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVGameBoard.m; sourceTree = "<group>"; };
+		7A8CCCFB1917F6B600FDB2B2 /* RIVGamePiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RIVGamePiece.h; sourceTree = "<group>"; };
+		7A8CCCFC1917F6B600FDB2B2 /* RIVGamePiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVGamePiece.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,12 +124,9 @@
 		7A8CCCC11917F34C00FDB2B2 /* Connect Four */ = {
 			isa = PBXGroup;
 			children = (
-				7A8CCCCA1917F34C00FDB2B2 /* RIVAppDelegate.h */,
-				7A8CCCCB1917F34C00FDB2B2 /* RIVAppDelegate.m */,
-				7A8CCCCD1917F34C00FDB2B2 /* Main.storyboard */,
-				7A8CCCD01917F34C00FDB2B2 /* RIVViewController.h */,
-				7A8CCCD11917F34C00FDB2B2 /* RIVViewController.m */,
-				7A8CCCD31917F34C00FDB2B2 /* Images.xcassets */,
+				7A8CCCF11917F5B500FDB2B2 /* View */,
+				7A8CCCF21917F5BB00FDB2B2 /* Controller */,
+				7A8CCCF01917F5A800FDB2B2 /* Model */,
 				7A8CCCC21917F34C00FDB2B2 /* Supporting Files */,
 			);
 			path = "Connect Four";
@@ -126,6 +135,8 @@
 		7A8CCCC21917F34C00FDB2B2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7A8CCCCA1917F34C00FDB2B2 /* RIVAppDelegate.h */,
+				7A8CCCCB1917F34C00FDB2B2 /* RIVAppDelegate.m */,
 				7A8CCCC31917F34C00FDB2B2 /* Connect Four-Info.plist */,
 				7A8CCCC41917F34C00FDB2B2 /* InfoPlist.strings */,
 				7A8CCCC71917F34C00FDB2B2 /* main.m */,
@@ -150,6 +161,37 @@
 				7A8CCCE31917F34C00FDB2B2 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7A8CCCF01917F5A800FDB2B2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7A8CCCF71917F6A200FDB2B2 /* RIVGameBoard.h */,
+				7A8CCCF81917F6A200FDB2B2 /* RIVGameBoard.m */,
+				7A8CCCF31917F68A00FDB2B2 /* RIVPlayer.h */,
+				7A8CCCF41917F68A00FDB2B2 /* RIVPlayer.m */,
+				7A8CCCFB1917F6B600FDB2B2 /* RIVGamePiece.h */,
+				7A8CCCFC1917F6B600FDB2B2 /* RIVGamePiece.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		7A8CCCF11917F5B500FDB2B2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7A8CCCCD1917F34C00FDB2B2 /* Main.storyboard */,
+				7A8CCCD31917F34C00FDB2B2 /* Images.xcassets */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		7A8CCCF21917F5BB00FDB2B2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7A8CCCD01917F34C00FDB2B2 /* RIVViewController.h */,
+				7A8CCCD11917F34C00FDB2B2 /* RIVViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +292,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A8CCCF91917F6A200FDB2B2 /* RIVGameBoard.m in Sources */,
+				7A8CCCF51917F68A00FDB2B2 /* RIVPlayer.m in Sources */,
+				7A8CCCFD1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */,
 				7A8CCCCC1917F34C00FDB2B2 /* RIVAppDelegate.m in Sources */,
 				7A8CCCC81917F34C00FDB2B2 /* main.m in Sources */,
 				7A8CCCD21917F34C00FDB2B2 /* RIVViewController.m in Sources */,
@@ -260,6 +305,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A8CCCF61917F68A00FDB2B2 /* RIVPlayer.m in Sources */,
+				7A8CCCFA1917F6A200FDB2B2 /* RIVGameBoard.m in Sources */,
+				7A8CCCFE1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */,
 				7A8CCCE71917F34C00FDB2B2 /* Connect_FourTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

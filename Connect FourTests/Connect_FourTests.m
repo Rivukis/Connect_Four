@@ -26,9 +26,14 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testTwoPlusTwoEqualsFour
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    NSInteger firstNumber = 2;
+    NSInteger secondNumber = 2;
+    
+    XCTAssertEqual(firstNumber + secondNumber, 4, @"two plus two should equal four.");
+    
+    
 }
 
 @end
