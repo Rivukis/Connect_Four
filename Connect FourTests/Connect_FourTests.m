@@ -57,11 +57,26 @@
     
     XCTAssertTrue([firstPlayer.color isEqual:[UIColor blackColor]] || [secondPlayer.color isEqual:[UIColor blackColor]] , @"One player's color should be black");
     XCTAssertTrue([firstPlayer.color isEqual:[UIColor redColor]] || [secondPlayer.color isEqual:[UIColor redColor]] , @"One player's color should be red");
-    
-    
+}
+
+- (void)testNewGamePlayersExist
+{
+    for (NSInteger i = 0; i < self.gameBoard.players.count; i++) {
+        XCTAssertNotNil(self.gameBoard.players[i], @"player %d should exist", i);
+    }
+}
+
+- (void)testGameBoardForPieces
+{
+    for (RIVGamePiece *piece in self.gameBoard.pieces) {
+        XCTAssertEqualObjects(piece.gameboard, self.gameBoard, @"pieces should reference their gameboard");
+    }
 }
 
 @end
+
+
+
 
 
 
