@@ -7,7 +7,19 @@
 //
 
 #import "RIVGameBoard.h"
+#import "RIVPlayer.h"
 
 @implementation RIVGameBoard
+
+- (instancetype)initWithPlayers
+{
+    self = [super init];
+    if (self) {
+        RIVPlayer *firstPlayer = [RIVPlayer new];
+        RIVPlayer *secondPlayer = [RIVPlayer new];
+        self.players = @[firstPlayer, secondPlayer];
+    }
+    return self;
+}
 
 @end

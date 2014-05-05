@@ -13,6 +13,8 @@
 
 @interface Connect_FourTests : XCTestCase
 
+@property (strong, nonatomic) RIVGameBoard *gameBoard;
+
 @end
 
 @implementation Connect_FourTests
@@ -20,12 +22,14 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    self.gameBoard = [[RIVGameBoard alloc] initWithPlayers];
 }
 
 - (void)tearDown
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    _gameBoard = nil;
+    
     [super tearDown];
 }
 
@@ -37,6 +41,11 @@
     XCTAssertEqual(blackPiece.color, [UIColor blackColor], @"blackPiece should be black");
     XCTAssertEqual(redPiece.color, [UIColor redColor], @"redPiece should be red");
     
+}
+
+- (void)testNewGamePlayerCount
+{
+    XCTAssertTrue(self.gameBoard.players.count == 2, @"new gameBoard should have two players");
 }
 
 @end
