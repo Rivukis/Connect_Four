@@ -12,16 +12,20 @@
 
 + (RIVGamePiece *)redPiece
 {
-    RIVGamePiece *newPiece = [RIVGamePiece new];
-    newPiece.color = [UIColor redColor];
-    return newPiece;
+    return  [RIVGamePiece pieceWithColor:[UIColor redColor]];
 }
 
 + (RIVGamePiece *)blackPiece
 {
+    return  [RIVGamePiece pieceWithColor:[UIColor blackColor]];
+}
+
++ (RIVGamePiece *)pieceWithColor:(UIColor *)color
+{
     RIVGamePiece *newPiece = [RIVGamePiece new];
-    newPiece.color = [UIColor blackColor];
-    return  newPiece;
+    newPiece.color = color;
+    
+    return newPiece;
 }
 
 @end
