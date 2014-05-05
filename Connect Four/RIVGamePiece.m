@@ -10,6 +10,18 @@
 
 @implementation RIVGamePiece
 
++ (RIVGamePiece *)redPiece
+{
+    RIVGamePiece *newPiece = [RIVGamePiece new];
+    newPiece.color = [UIColor redColor];
+    return newPiece;
+}
 
++ (RIVGamePiece *)blackPiece
+{
+    RIVGamePiece *newPiece = [RIVGamePiece new];
+    newPiece.color = [UIColor blackColor];
+    return  newPiece;
+}
 
 @end
