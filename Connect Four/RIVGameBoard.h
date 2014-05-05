@@ -8,15 +8,18 @@
 
 #import <Foundation/Foundation.h>
 @class RIVGamePiece;
+@class RIVPlayer;
 
 @interface RIVGameBoard : NSObject
 
-@property (strong, nonatomic) NSArray *pieces;
+@property (strong, nonatomic) NSMutableArray *playedPieces;
 @property (strong, nonatomic) NSArray *players; // of RIVPlayer
+//@property (strong, nonatomic) NSMutableDictionary *spots;
+
 @property (strong, nonatomic) NSArray *spots;
 
 - (instancetype)initWithPlayers;
 
-- (void)playPiece:(RIVGamePiece *)gamePiece atIndex:(NSIndexPath *)indexPath;
+- (void)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece atIndex:(NSIndexPath *)indexPath;
 
 @end

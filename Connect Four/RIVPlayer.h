@@ -7,15 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+@class RIVGameBoard;
 
 @interface RIVPlayer : NSObject
 
+@property (strong, nonatomic) NSArray *unplayedPieces;
 @property (assign, nonatomic) UIColor *color;
-@property (weak, nonatomic) NSArray *gamePieces;
 @property (readwrite, nonatomic) BOOL isCurrentTurn;
 
-- (instancetype)initWithColor:(UIColor *)color;
 - (instancetype)initWithColor:(UIColor *)color andPieceCount:(NSInteger)count;
-
 
 @end

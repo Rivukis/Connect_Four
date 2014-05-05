@@ -10,6 +10,7 @@
 #import "RIVGamePiece.h"
 #import "RIVGameBoard.h"
 #import "RIVPlayer.h"
+#import "RIVPlaySpot.h"
 
 @interface Connect_FourTests : XCTestCase
 
@@ -66,20 +67,94 @@
     }
 }
 
-- (void)testGameBoardForPieces
-{
-    for (RIVGamePiece *piece in self.gameBoard.pieces) {
-        XCTAssertEqualObjects(piece.gameboard, self.gameBoard, @"pieces should reference their gameboard");
-    }
-}
+//- (void)testGameBoardForPieces
+//{
+//    for (RIVGamePiece *piece in self.gameBoard.pieces) {
+//        XCTAssertEqualObjects(piece.gameboard, self.gameBoard, @"pieces should reference their gameboard");
+//    }
+//}
 
 - (void)testPieceColorEqualsPlayerColor
 {
     for (RIVPlayer *player in self.gameBoard.players) {
-        for (RIVGamePiece *piece in player.gamePieces) {
+        for (RIVGamePiece *piece in player.unplayedPieces) {
             XCTAssertEqual(piece.color, player.color, @"player color should equal the color of every piece the player has");
         }
     }
+}
+
+
+#pragma mark - Erroneous Tests
+
+
+- (void)testGameBoardIsAGameBoard
+{
+    XCTAssertTrue([self.gameBoard isKindOfClass:[RIVGameBoard class]], @"gameboard should be of class type RIVGameBoard");
+}
+
+
+#pragma mark - New Tests
+
+
+- (void)testPlayerForEachPieceHeldByGameBoardNotNil
+{
+    for (RIVGamePiece *piece in self.gameBoard.playedPieces) {
+        XCTAssertNotNil(piece.player, @"pieces should reference their player after played");
+    }
+}
+
+- (void)testPlayerForEachPieceHeldByPlayer
+{
+    for (RIVPlayer *player in self.gameBoard.players) {
+        for (RIVGamePiece *piece in player.unplayedPieces) {
+            XCTAssertEqualObjects(piece.player, player, @"pieces should reference their player before played");
+        }
+    }
+}
+
+- (void)testPlayersHaveTwentyOnePieces
+{
+    RIVPlayer *firstPlayer = [self.gameBoard.players firstObject];
+    RIVPlayer *secondPlayer = [self.gameBoard.players lastObject];
+    
+    XCTAssertEqual(firstPlayer.unplayedPieces.count, 21, @"firstPlayer should have 21 pieces");
+    XCTAssertEqual(secondPlayer.unplayedPieces.count, 21, @"secondPlayer should have 21 pieces");
+}
+
+- (void)testGameBoardSpotsCount
+{
+    NSInteger count = 0;
+    for (NSArray *column in self.gameBoard.spots) {
+        count += column.count; // column.count = Row Count
+    }
+    XCTAssertEqual(count, 42, @"gameboard should have 42 spots");
+}
+
+- (void)testGameBoardSpotsArePlaySpots
+{
+    for (NSInteger col = 0; col < 7; col++) {
+        for (NSInteger row = 0; row < 6; row++) {
+            
+            BOOL test = [self.gameBoard.spots[col][row] isKindOfClass:[RIVPlaySpot class]];
+            XCTAssertTrue(test, @"gameboard should have spot at address: %dx%d", col, row);
+            
+//            BOOL test = [gameboardSpotAddresses containsObject:[NSString stringWithFormat:@"%dx%d", col, row]];
+            
+//            XCTAssertTrue(test, @"gameboard should have spot at address: %dx%d", col, row);
+        }
+    }
+    
+    
+    
+//    NSArray *gameboardSpotAddresses = [self.gameBoard.spots allKeys];
+//    for (NSInteger col = 1; col <= 7; col++) {
+//        for (NSInteger row = 1; row <= 6; row++) {
+//            
+//            BOOL test = [gameboardSpotAddresses containsObject:[NSString stringWithFormat:@"%dx%d", col, row]];
+//            
+//            XCTAssertTrue(test, @"gameboard should have spot at address: %dx%d", col, row);
+//        }
+//    }
 }
 
 @end

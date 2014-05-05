@@ -11,15 +11,6 @@
 
 @implementation RIVPlayer
 
-- (instancetype)initWithColor:(UIColor *)color
-{
-    self = [super init];
-    if (self) {
-        self.color = color;
-    }
-    return self;
-}
-
 - (instancetype)initWithColor:(UIColor *)color andPieceCount:(NSInteger)count
 {
     self = [super init];
@@ -28,9 +19,10 @@
         NSMutableArray *tempPieces = [NSMutableArray new];
         for (NSInteger i = 0; i < count; i++) {
             RIVGamePiece *tempPiece = ([color isEqual:[UIColor blackColor]]) ? [RIVGamePiece blackPiece] : [RIVGamePiece redPiece];
+            tempPiece.player = self;
             [tempPieces addObject:tempPiece];
         }
-        self.gamePieces = tempPieces;
+        self.unplayedPieces = tempPieces;
     }
     return self;
 }
