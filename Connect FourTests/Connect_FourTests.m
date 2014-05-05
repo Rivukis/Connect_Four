@@ -48,4 +48,33 @@
     XCTAssertTrue(self.gameBoard.players.count == 2, @"new gameBoard should have two players");
 }
 
+- (void)testNewPlayersColor
+{
+    RIVPlayer *firstPlayer = [self.gameBoard.players firstObject];
+    RIVPlayer *secondPlayer = [self.gameBoard.players lastObject];
+    
+    XCTAssertNotEqual(firstPlayer.color, secondPlayer.color, @"players should have different colors");
+    
+    XCTAssertTrue([firstPlayer.color isEqual:[UIColor blackColor]] || [secondPlayer.color isEqual:[UIColor blackColor]] , @"One player's color should be black");
+    XCTAssertTrue([firstPlayer.color isEqual:[UIColor redColor]] || [secondPlayer.color isEqual:[UIColor redColor]] , @"One player's color should be red");
+    
+    
+}
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

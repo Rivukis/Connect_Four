@@ -15,8 +15,8 @@
 {
     self = [super init];
     if (self) {
-        RIVPlayer *firstPlayer = [RIVPlayer new];
-        RIVPlayer *secondPlayer = [RIVPlayer new];
+        RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:[UIColor blackColor]];
+        RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:[UIColor redColor]];
         self.players = @[firstPlayer, secondPlayer];
     }
     return self;
