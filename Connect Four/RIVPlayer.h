@@ -10,7 +10,7 @@
 
 @interface RIVPlayer : NSObject
 
-@property (assign, nonatomic) UIColor *playerColor;
+@property (assign, nonatomic) UIColor *color;
 @property (weak, nonatomic) NSArray *gamePieces;
 @property (readwrite, nonatomic) BOOL isCurrentTurn;
 

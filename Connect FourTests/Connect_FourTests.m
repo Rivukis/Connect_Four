@@ -7,6 +7,9 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "RIVGamePiece.h"
+#import "RIVGameBoard.h"
+#import "RIVPlayer.h"
 
 @interface Connect_FourTests : XCTestCase
 
@@ -26,13 +29,13 @@
     [super tearDown];
 }
 
-- (void)testTwoPlusTwoEqualsFour
+- (void)testColorOfNewPiece
 {
-    NSInteger firstNumber = 2;
-    NSInteger secondNumber = 2;
+    RIVGamePiece *redPiece = [RIVGamePiece redPiece];
+    RIVGamePiece *blackPiece = [RIVGamePiece blackPiece];
     
-    XCTAssertEqual(firstNumber + secondNumber, 4, @"two plus two should equal four.");
-    
+    XCTAssertEqual(blackPiece.color, [UIColor blackColor], @"blackPiece should be black");
+    XCTAssertEqual(redPiece.color, [UIColor redColor], @"redPiece should be red");
     
 }
 

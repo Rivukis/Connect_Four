@@ -12,11 +12,10 @@
 
 - (instancetype)initWithColor:(UIColor *)color
 {
-    self = [super self];
-    
-    
-    
-    
+    self = [super init];
+    if (self) {
+        self.color = color;
+    }
     return self;
 }
 
