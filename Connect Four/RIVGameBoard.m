@@ -17,9 +17,13 @@
 {
     self = [super init];
     if (self) {
+        // Make and Add Players
         RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:[UIColor blackColor] andPieceCount:21];
         RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:[UIColor redColor] andPieceCount:21];
         self.players = @[firstPlayer, secondPlayer];
+        
+        // Randomly Choose Who Goes First
+        ((RIVPlayer *)self.players[arc4random_uniform(self.players.count)]).isCurrentTurn = YES;
     }
     return self;
 }
@@ -37,6 +41,7 @@
     NSIndexPath *indexPath;
     RIVPlaySpot *tempSpot;
     
+    // Find Lowest Row in Given Column
     for (NSInteger row = 0; row < 6; row++) {
         tempSpot = self.spots[column][row];
         if (!tempSpot.hasPiece) {
@@ -45,15 +50,10 @@
         }
     }
     if (indexPath) {
-        
-//        RIVPlaySpot *spot = self.spots[indexPath.section][indexPath.row];
-//        spot.piece = gamePiece;
-//        spot.hasPiece = YES;
-        
-        
+        // Add Piece to GameBoard
         tempSpot.piece = gamePiece;
         tempSpot.hasPiece = YES;
-        
+        // Remove Piece from Player
         [player.unplayedPieces removeObject:gamePiece];
         return YES;
     } else {
@@ -63,14 +63,14 @@
 
 - (NSArray *)spots
 {
-//    Columns
+//            (7) Columns
 //    
-//    6
-//    5
-//    4
-//    3
-//    2
-//    1, 2, 3, 4, 5, 6, 7   Rows
+//    6                         (6)
+//    5                          R
+//    4                          o
+//    3                          w
+//    2                          s
+//    1, 2, 3, 4, 5, 6, 7
     
     if (!_spots) {
         NSMutableArray *columns = [NSMutableArray new];
