@@ -11,7 +11,7 @@
 
 @interface RIVPlayer : NSObject
 
-@property (strong, nonatomic) NSArray *unplayedPieces;
+@property (strong, nonatomic) NSMutableArray *unplayedPieces;
 @property (assign, nonatomic) UIColor *color;
 @property (readwrite, nonatomic) BOOL isCurrentTurn;
 

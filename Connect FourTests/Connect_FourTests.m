@@ -134,27 +134,33 @@
 {
     for (NSInteger col = 0; col < 7; col++) {
         for (NSInteger row = 0; row < 6; row++) {
-            
             BOOL test = [self.gameBoard.spots[col][row] isKindOfClass:[RIVPlaySpot class]];
             XCTAssertTrue(test, @"gameboard should have spot at address: %dx%d", col, row);
-            
-//            BOOL test = [gameboardSpotAddresses containsObject:[NSString stringWithFormat:@"%dx%d", col, row]];
-            
-//            XCTAssertTrue(test, @"gameboard should have spot at address: %dx%d", col, row);
         }
     }
+}
+
+- (void)testPutOnePieceInColumn
+{
+    RIVPlayer *player = [self.gameBoard.players firstObject];
+    RIVGamePiece *gamePiece = [player.unplayedPieces firstObject];
+    [self.gameBoard playPlayers:player gamePiece:gamePiece onColumn:0];
     
+    XCTAssertEqualObjects(gamePiece, [self.gameBoard.spots[0][0] piece], @"piece played from players pieces should be the same piece as the one added to the gameboard");
+}
+
+- (void)testFillColumnReturningYesThenReturnNoWhenFull
+{
+    RIVPlayer *player = [self.gameBoard.players firstObject];
+    BOOL didPlayPiece;
     
+    for (NSInteger row = 0; row < 6; row++) {
+        didPlayPiece = [self.gameBoard playPlayers:player gamePiece:[player.unplayedPieces firstObject] onColumn:0];
+        XCTAssertTrue(didPlayPiece, @"should be able to play piece when column is not full");
+    }
     
-//    NSArray *gameboardSpotAddresses = [self.gameBoard.spots allKeys];
-//    for (NSInteger col = 1; col <= 7; col++) {
-//        for (NSInteger row = 1; row <= 6; row++) {
-//            
-//            BOOL test = [gameboardSpotAddresses containsObject:[NSString stringWithFormat:@"%dx%d", col, row]];
-//            
-//            XCTAssertTrue(test, @"gameboard should have spot at address: %dx%d", col, row);
-//        }
-//    }
+    didPlayPiece = [self.gameBoard playPlayers:player gamePiece:[player.unplayedPieces firstObject] onColumn:0];
+    XCTAssertFalse(didPlayPiece, @"should not be able to play pice when column is is full");
 }
 
 @end

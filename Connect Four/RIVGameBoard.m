@@ -19,8 +19,6 @@
     if (self) {
         RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:[UIColor blackColor] andPieceCount:21];
         RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:[UIColor redColor] andPieceCount:21];
-//        firstPlayer.gameboard = self;
-//        secondPlayer.gameboard = self;
         self.players = @[firstPlayer, secondPlayer];
     }
     return self;
@@ -34,9 +32,33 @@
     return _playedPieces;
 }
 
-- (void)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece atIndex:(NSIndexPath *)indexPath
+- (BOOL)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece onColumn:(NSInteger)column
 {
+    NSIndexPath *indexPath;
+    RIVPlaySpot *tempSpot;
     
+    for (NSInteger row = 0; row < 6; row++) {
+        tempSpot = self.spots[column][row];
+        if (!tempSpot.hasPiece) {
+            indexPath = [NSIndexPath indexPathForRow:row inSection:column];
+            break;
+        }
+    }
+    if (indexPath) {
+        
+//        RIVPlaySpot *spot = self.spots[indexPath.section][indexPath.row];
+//        spot.piece = gamePiece;
+//        spot.hasPiece = YES;
+        
+        
+        tempSpot.piece = gamePiece;
+        tempSpot.hasPiece = YES;
+        
+        [player.unplayedPieces removeObject:gamePiece];
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (NSArray *)spots
@@ -67,32 +89,5 @@
     }
     return _spots;
 }
-
-
-
-
-
-
-
-//- (NSArray *)pieces
-//{
-////    NSMutableArray *tempArray = [NSMutableArray new];
-////    for (RIVPlayer *player in self.players) {
-////        [tempArray addObjectsFromArray:player.gamePieces];
-////    }
-////    return tempArray;
-//    
-//    
-//    if (!_pieces) {
-//        NSMutableArray *tempArray = [NSMutableArray new];
-//        for (RIVPlayer *player in self.players) {
-////            for (RIVGamePiece *piece in player.gamePieces) piece.gameboard = self;
-//            [tempArray addObjectsFromArray:player.unplayedPieces];
-//        }
-//        _pieces = tempArray;
-//    }
-//    
-//    return _pieces;
-//}
 
 @end

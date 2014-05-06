@@ -14,12 +14,13 @@
 
 @property (strong, nonatomic) NSMutableArray *playedPieces;
 @property (strong, nonatomic) NSArray *players; // of RIVPlayer
-//@property (strong, nonatomic) NSMutableDictionary *spots;
 
 @property (strong, nonatomic) NSArray *spots;
 
 - (instancetype)initWithPlayers;
 
-- (void)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece atIndex:(NSIndexPath *)indexPath;
+//- (void)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece atIndex:(NSIndexPath *)indexPath;
+
+- (BOOL)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece onColumn:(NSInteger)column;
 
 @end
