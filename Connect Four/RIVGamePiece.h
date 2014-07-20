@@ -7,19 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-@class RIVPlayer, RIVGameBoard;
+
+typedef NS_ENUM(NSInteger, RIVGamePieceColor) {
+    RIVGamePieceColorRed,
+    RIVGamePieceColorBlack
+};
 
 @interface RIVGamePiece : NSObject
 
-@property (strong, nonatomic) UIColor *color;
-@property (weak, nonatomic) RIVPlayer *player;
-@property (strong, nonatomic) NSIndexPath *indexPath;
-//@property (nonatomic) NSInteger column;
-//@property (nonatomic) NSInteger row;
+@property (readonly, nonatomic) RIVGamePieceColor color;
 
-//@property (weak, nonatomic) RIVGameBoard *gameboard;
-
-+ (RIVGamePiece *)redPiece;
-+ (RIVGamePiece *)blackPiece;
+//+ (RIVGamePiece *)redPiece;
+//+ (RIVGamePiece *)blackPiece;
++ (RIVGamePiece *)pieceWithColor:(RIVGamePieceColor)color;
 
 @end

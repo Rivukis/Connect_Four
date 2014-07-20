@@ -27,8 +27,7 @@
 		7A8CCCFD1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCFC1917F6B600FDB2B2 /* RIVGamePiece.m */; };
 		7A8CCCFE1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCCFC1917F6B600FDB2B2 /* RIVGamePiece.m */; };
 		7A8CCD01191840EA00FDB2B2 /* RIVMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCD00191840EA00FDB2B2 /* RIVMainViewController.m */; };
-		7A8CCD041918492300FDB2B2 /* RIVPlaySpot.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCD031918492300FDB2B2 /* RIVPlaySpot.m */; };
-		7A8CCD051918492300FDB2B2 /* RIVPlaySpot.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CCD031918492300FDB2B2 /* RIVPlaySpot.m */; };
+		7AE678CE197B4226009BDD3A /* RIVGridLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AE678CD197B4226009BDD3A /* RIVGridLocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,8 +66,8 @@
 		7A8CCCFC1917F6B600FDB2B2 /* RIVGamePiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVGamePiece.m; sourceTree = "<group>"; };
 		7A8CCCFF191840EA00FDB2B2 /* RIVMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RIVMainViewController.h; sourceTree = "<group>"; };
 		7A8CCD00191840EA00FDB2B2 /* RIVMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVMainViewController.m; sourceTree = "<group>"; };
-		7A8CCD021918492300FDB2B2 /* RIVPlaySpot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RIVPlaySpot.h; sourceTree = "<group>"; };
-		7A8CCD031918492300FDB2B2 /* RIVPlaySpot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVPlaySpot.m; sourceTree = "<group>"; };
+		7AE678CC197B4226009BDD3A /* RIVGridLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RIVGridLocation.h; sourceTree = "<group>"; };
+		7AE678CD197B4226009BDD3A /* RIVGridLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVGridLocation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,8 +171,8 @@
 			children = (
 				7A8CCCF71917F6A200FDB2B2 /* RIVGameBoard.h */,
 				7A8CCCF81917F6A200FDB2B2 /* RIVGameBoard.m */,
-				7A8CCD021918492300FDB2B2 /* RIVPlaySpot.h */,
-				7A8CCD031918492300FDB2B2 /* RIVPlaySpot.m */,
+				7AE678CC197B4226009BDD3A /* RIVGridLocation.h */,
+				7AE678CD197B4226009BDD3A /* RIVGridLocation.m */,
 				7A8CCCF31917F68A00FDB2B2 /* RIVPlayer.h */,
 				7A8CCCF41917F68A00FDB2B2 /* RIVPlayer.m */,
 				7A8CCCFB1917F6B600FDB2B2 /* RIVGamePiece.h */,
@@ -298,10 +297,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A8CCD041918492300FDB2B2 /* RIVPlaySpot.m in Sources */,
 				7A8CCCF91917F6A200FDB2B2 /* RIVGameBoard.m in Sources */,
 				7A8CCD01191840EA00FDB2B2 /* RIVMainViewController.m in Sources */,
 				7A8CCCF51917F68A00FDB2B2 /* RIVPlayer.m in Sources */,
+				7AE678CE197B4226009BDD3A /* RIVGridLocation.m in Sources */,
 				7A8CCCFD1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */,
 				7A8CCCCC1917F34C00FDB2B2 /* RIVAppDelegate.m in Sources */,
 				7A8CCCC81917F34C00FDB2B2 /* main.m in Sources */,
@@ -314,7 +313,6 @@
 			files = (
 				7A8CCCF61917F68A00FDB2B2 /* RIVPlayer.m in Sources */,
 				7A8CCCFA1917F6A200FDB2B2 /* RIVGameBoard.m in Sources */,
-				7A8CCD051918492300FDB2B2 /* RIVPlaySpot.m in Sources */,
 				7A8CCCFE1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */,
 				7A8CCCE71917F34C00FDB2B2 /* Connect_FourTests.m in Sources */,
 			);

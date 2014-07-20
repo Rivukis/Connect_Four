@@ -9,7 +9,10 @@
 #import "RIVGameBoard.h"
 #import "RIVPlayer.h"
 #import "RIVGamePiece.h"
-#import "RIVPlaySpot.h"
+#import "RIVGridLocation.h"
+
+const NSInteger numberOfRows = 6;
+const NSInteger numberOfColumns = 7;
 
 @implementation RIVGameBoard
 
@@ -18,76 +21,81 @@
     self = [super init];
     if (self) {
         // Make and Add Players
-        RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:[UIColor blackColor] andPieceCount:21];
-        RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:[UIColor redColor] andPieceCount:21];
+        RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:RIVGamePieceColorBlack andPieceCount:21];
+        RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:RIVGamePieceColorRed andPieceCount:21];
         self.players = @[firstPlayer, secondPlayer];
         
         // Randomly Choose Who Goes First
-        ((RIVPlayer *)self.players[arc4random_uniform(self.players.count)]).isCurrentTurn = YES;
+        NSInteger playerToActIndex = arc4random_uniform(self.players.count);
+        self.playerToAct = self.players[playerToActIndex];
     }
     return self;
 }
 
-- (NSMutableArray *)playedPieces
-{
-    if (!_playedPieces) {
-        _playedPieces = [NSMutableArray new];
-    }
-    return _playedPieces;
-}
 
-- (BOOL)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece onColumn:(NSInteger)column
+#pragma mark - Helper Methods
+
+
+// Returns YES if piece was played successfully
+- (BOOL)playGamePiece:(RIVGamePiece *)gamePiece onColumn:(NSInteger)column fromPlayer:(RIVPlayer *)player
 {
-    NSIndexPath *indexPath;
-    RIVPlaySpot *tempSpot;
+    // Check for Errors and Return NO if Found
+    if (!gamePiece || !player || column < 0 || column >= numberOfColumns) return NO;
     
-    // Find Lowest Row in Given Column
-    for (NSInteger row = 0; row < 6; row++) {
-        tempSpot = self.spots[column][row];
-        if (!tempSpot.hasPiece) {
-            indexPath = [NSIndexPath indexPathForRow:row inSection:column];
-            break;
-        }
+    // Find Next Empty GridLocation in Column
+    RIVGridLocation *tempGridLocation;
+    NSInteger row = 0;
+    while (row < numberOfRows && !tempGridLocation) {
+        tempGridLocation = self.grid[row][column];
+        if (tempGridLocation.piece) tempGridLocation = nil;
     }
-    if (indexPath) {
-        // Add Piece to GameBoard
-        tempSpot.piece = gamePiece;
-        tempSpot.hasPiece = YES;
-        // Remove Piece from Player
-        [player.unplayedPieces removeObject:gamePiece];
-        return YES;
-    } else {
-        return NO;
-    }
+    
+    // If No Playable Location then Return NO
+    if (!tempGridLocation) return NO;
+    
+    // Add Piece to GameBoard and Remove Piece from Player
+    tempGridLocation.piece = gamePiece;
+    [player.unplayedPieces removeObject:gamePiece];
+    
+    return YES;
 }
 
-- (NSArray *)spots
-{
+
+#pragma mark - Lazy Instantiation
+
+
 //            (7) Columns
-//    
-//    6                         (6)
-//    5                          R
-//    4                          o
-//    3                          w
-//    2                          s
-//    1, 2, 3, 4, 5, 6, 7
-    
-    if (!_spots) {
-        NSMutableArray *columns = [NSMutableArray new];
-        NSMutableArray *rows;
-        RIVPlaySpot *spot;
+//
+//    5                         (6)
+//    4                          R
+//    3                          o
+//    2                          w
+//    1                          s
+//    0, 1, 2, 3, 4, 5, 6
+- (NSArray *)grid
+{
+    if (!_grid) {
+        NSMutableArray *rows = [NSMutableArray new];
+        NSMutableArray *columns;
+        RIVGridLocation *gridLocation;
         
-        for (NSInteger col = 0; col < 7; col++) {
-            rows = [NSMutableArray new];
-            for (NSInteger row = 0; row < 6; row++) {
-                spot = [RIVPlaySpot new];
-                [rows addObject:spot];
+        for (NSInteger row = 0; row < numberOfRows; row++) {
+            columns = [NSMutableArray new];
+            for (NSInteger col = 0; col < numberOfColumns; col++) {
+                gridLocation = [RIVGridLocation new];
+                [columns addObject:gridLocation];
             }
-            [columns addObject:[rows copy]];
+            [rows addObject:[columns copy]];
         }
-        _spots = [columns copy];
+        _grid = [rows copy];
     }
-    return _spots;
+    return _grid;
+}
+
+- (NSArray *)players
+{
+    if (!_players) _players = [NSArray new];
+    return _players;
 }
 
 @end

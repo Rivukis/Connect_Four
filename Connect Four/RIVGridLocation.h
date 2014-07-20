@@ -1,17 +1,16 @@
 //
-//  RIVPlaySpot.h
+//  RIVGridLocation.h
 //  Connect Four
 //
-//  Created by Brian Radebaugh on 5/5/14.
+//  Created by Brian Radebaugh on 7/19/14.
 //  Copyright (c) 2014 Brian Radebaugh. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 @class RIVGamePiece;
 
-@interface RIVPlaySpot : NSObject
+@interface RIVGridLocation : NSObject
 
-@property (nonatomic) BOOL hasPiece;
 @property (strong, nonatomic) RIVGamePiece *piece;
 
 @end

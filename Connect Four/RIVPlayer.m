@@ -9,22 +9,33 @@
 #import "RIVPlayer.h"
 #import "RIVGamePiece.h"
 
+@interface RIVPlayer ()
+
+@property (strong, nonatomic) NSMutableArray *unplayedPieces;
+@property (assign, nonatomic) RIVGamePieceColor color;
+
+@end
+
 @implementation RIVPlayer
 
-- (instancetype)initWithColor:(UIColor *)color andPieceCount:(NSInteger)count
+- (instancetype)initWithColor:(RIVGamePieceColor)color andPieceCount:(NSInteger)count
 {
     self = [super init];
     if (self) {
         self.color = color;
-        NSMutableArray *tempPieces = [NSMutableArray new];
+        
+        self.unplayedPieces = [NSMutableArray new];
         for (NSInteger i = 0; i < count; i++) {
-            RIVGamePiece *tempPiece = ([color isEqual:[UIColor blackColor]]) ? [RIVGamePiece blackPiece] : [RIVGamePiece redPiece];
-            tempPiece.player = self;
-            [tempPieces addObject:tempPiece];
+            RIVGamePiece *newPiece = [RIVGamePiece pieceWithColor:color];
+            [self.unplayedPieces addObject:newPiece];
         }
-        self.unplayedPieces = tempPieces;
     }
     return self;
+}
+
+- (void)removePieceFromPlayerPool
+{
+    if (self.unplayedPieces.count) [self.unplayedPieces removeLastObject];
 }
 
 @end

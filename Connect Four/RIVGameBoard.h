@@ -10,17 +10,17 @@
 @class RIVGamePiece;
 @class RIVPlayer;
 
+extern const NSInteger numberOfRows;
+extern const NSInteger numberOfColumns;
+
 @interface RIVGameBoard : NSObject
 
-@property (strong, nonatomic) NSMutableArray *playedPieces;
+@property (strong, nonatomic) NSArray *grid; // 2-Dimensional Array of RIVGridLocation
 @property (strong, nonatomic) NSArray *players; // of RIVPlayer
-
-@property (strong, nonatomic) NSArray *spots;
+@property (weak, nonatomic) RIVPlayer *playerToAct; // Player to Act Next
 
 - (instancetype)initWithPlayers;
 
-//- (void)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece atIndex:(NSIndexPath *)indexPath;
-
-- (BOOL)playPlayers:(RIVPlayer *)player gamePiece:(RIVGamePiece *)gamePiece onColumn:(NSInteger)column;
+- (BOOL)playGamePiece:(RIVGamePiece *)gamePiece onColumn:(NSInteger)column fromPlayer:(RIVPlayer *)player;
 
 @end
