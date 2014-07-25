@@ -16,9 +16,11 @@ typedef NS_ENUM(NSInteger, RIVGamePieceColor) {
 @interface RIVGamePiece : NSObject
 
 @property (readonly, nonatomic) RIVGamePieceColor color;
+@property (assign, nonatomic) NSInteger startingX;
+@property (assign, nonatomic) NSInteger startingY;
+@property (assign, nonatomic) NSInteger playedX;
+@property (assign, nonatomic) NSInteger playedY;
 
-//+ (RIVGamePiece *)redPiece;
-//+ (RIVGamePiece *)blackPiece;
 + (RIVGamePiece *)pieceWithColor:(RIVGamePieceColor)color;
 
 @end

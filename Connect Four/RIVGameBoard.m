@@ -14,9 +14,21 @@
 const NSInteger numberOfRows = 6;
 const NSInteger numberOfColumns = 7;
 
+typedef NS_ENUM (NSInteger, SearchDirection) {
+    SearchDirectionWest = 1,
+    SearchDirectionEast,
+    SearchDirectionSouth,
+    SearchDirectionNorth,
+    SearchDirectionSouthWest,
+    SearchDirectionNorthEast,
+    SearchDirectionSouthEast,
+    SearchDirectionNorthWest,
+    SearchDirectionNone
+};
+
 @implementation RIVGameBoard
 
-- (instancetype)initWithPlayers
+- (instancetype)initWithTwoPlayers
 {
     self = [super init];
     if (self) {
@@ -36,28 +48,101 @@ const NSInteger numberOfColumns = 7;
 #pragma mark - Helper Methods
 
 
-// Returns YES if piece was played successfully
-- (BOOL)playGamePiece:(RIVGamePiece *)gamePiece onColumn:(NSInteger)column fromPlayer:(RIVPlayer *)player
+- (RIVGameBoardPlayState)playGamePieceonColumn:(NSInteger)column fromPlayer:(RIVPlayer *)player
 {
-    // Check for Errors and Return NO if Found
-    if (!gamePiece || !player || column < 0 || column >= numberOfColumns) return NO;
+    if (!player || !player.unplayedPieces.count || column < 0 || column >= numberOfColumns) return RIVGameBoardPlayStateNotPlayable;
     
-    // Find Next Empty GridLocation in Column
+    RIVGridLocation *playedLocation = [self nextAvailableLocationForColumn:column];
+    if (!playedLocation) return RIVGameBoardPlayStateNotPlayable;
+    
+    playedLocation.piece = player.unplayedPieces.lastObject;
+    [player.unplayedPieces removeLastObject];
+    
+    BOOL didWin = [self playedPieceWinsGameAtLocation:playedLocation];
+    return (didWin) ? RIVGameBoardPlayStateWinningMove : RIVGameBoardPlayStatePlayed;
+}
+
+- (RIVGridLocation *)nextAvailableLocationForColumn:(NSInteger)column
+{
     RIVGridLocation *tempGridLocation;
     NSInteger row = 0;
-    while (row < numberOfRows && !tempGridLocation) {
+    while (row < numberOfRows) {
         tempGridLocation = self.grid[row][column];
-        if (tempGridLocation.piece) tempGridLocation = nil;
+        if (!tempGridLocation.piece) return tempGridLocation;
+        row++;
     }
     
-    // If No Playable Location then Return NO
-    if (!tempGridLocation) return NO;
+    return nil;
+}
+
+- (BOOL)playedPieceWinsGameAtLocation:(RIVGridLocation *)playedPieceLocation
+{
+    RIVGridLocation *searchLocation = playedPieceLocation;
+    SearchDirection currentDirection = SearchDirectionWest;
+    BOOL shouldChangeDirection = NO;
+    NSInteger searchRow = searchLocation.row + [self horizontalDeltaFor:currentDirection];
+    NSInteger searchColumn = searchLocation.column + [self verticalDeltaFor:currentDirection];
+    NSInteger piecesInARow = 1;
     
-    // Add Piece to GameBoard and Remove Piece from Player
-    tempGridLocation.piece = gamePiece;
-    [player.unplayedPieces removeObject:gamePiece];
+    while (piecesInARow < 4 || currentDirection == SearchDirectionNone) {
+        if (searchRow < 0 || searchRow >= numberOfRows || searchColumn < 0 || searchColumn >= numberOfColumns) {
+            shouldChangeDirection = YES;
+        } else {
+            searchLocation = self.grid[searchRow][searchColumn];
+            if (playedPieceLocation.piece.color == searchLocation.piece.color) piecesInARow++;
+                else shouldChangeDirection = YES;
+        }
+        
+        if (shouldChangeDirection) {
+            currentDirection++;
+            if (currentDirection % 2 != 0) piecesInARow = 1;
+            searchLocation = playedPieceLocation;
+            shouldChangeDirection = NO;
+        }
+        
+        searchRow = searchLocation.row + [self horizontalDeltaFor:currentDirection];
+        searchColumn = searchLocation.column + [self verticalDeltaFor:currentDirection];
+    }
     
-    return YES;
+    return (piecesInARow >= 4) ? YES : NO;
+}
+
+- (NSInteger)horizontalDeltaFor:(SearchDirection)direction
+{
+    switch (direction) {
+        case SearchDirectionWest:
+        case SearchDirectionNorthWest:
+        case SearchDirectionSouthWest:
+            return -1;
+        case SearchDirectionEast:
+        case SearchDirectionNorthEast:
+        case SearchDirectionSouthEast:
+            return 1;
+        case SearchDirectionNorth:
+        case SearchDirectionSouth:
+        case SearchDirectionNone:
+        default:
+            return 0;
+    }
+}
+
+- (NSInteger)verticalDeltaFor:(SearchDirection)direction
+{
+    switch (direction) {
+        case SearchDirectionNorth:
+        case SearchDirectionNorthWest:
+        case SearchDirectionNorthEast:
+            return 1;
+        case SearchDirectionSouth:
+        case SearchDirectionSouthWest:
+        case SearchDirectionSouthEast:
+            return -1;
+        case SearchDirectionWest:
+        case SearchDirectionEast:
+        case SearchDirectionNone:
+        default:
+            return 0;
+    }
 }
 
 
@@ -81,8 +166,8 @@ const NSInteger numberOfColumns = 7;
         
         for (NSInteger row = 0; row < numberOfRows; row++) {
             columns = [NSMutableArray new];
-            for (NSInteger col = 0; col < numberOfColumns; col++) {
-                gridLocation = [RIVGridLocation new];
+            for (NSInteger column = 0; column < numberOfColumns; column++) {
+                gridLocation = [[RIVGridLocation alloc] initWithRow:row andColumn:column];
                 [columns addObject:gridLocation];
             }
             [rows addObject:[columns copy]];
