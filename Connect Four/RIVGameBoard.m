@@ -10,6 +10,7 @@
 #import "RIVPlayer.h"
 #import "RIVGamePiece.h"
 #import "RIVGridLocation.h"
+#import "StyleKitName.h"
 
 const NSInteger numberOfRows = 6;
 const NSInteger numberOfColumns = 7;
@@ -32,14 +33,16 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
 {
     self = [super init];
     if (self) {
-        // Make and Add Players
-        RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:RIVGamePieceColorBlack andPieceCount:21];
+        RIVPlayer *firstPlayer = [[RIVPlayer alloc] initWithColor:RIVGamePieceColorBlue andPieceCount:21];
         RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:RIVGamePieceColorRed andPieceCount:21];
         self.players = @[firstPlayer, secondPlayer];
         
-        // Randomly Choose Who Goes First
-        NSInteger playerToActIndex = arc4random_uniform(self.players.count);
-        self.playerToAct = self.players[playerToActIndex];
+        NSInteger firstPlayerToActIndex = arc4random_uniform(self.players.count);
+        self.playerToAct = self.players[firstPlayerToActIndex];
+        
+        CGRect gameboardRect = CGRectMake(15, 314, 290, 254);
+        UIImageView *gameboardView = [[UIImageView alloc] initWithFrame:gameboardRect];
+        gameboardView.image = [StyleKitName imageOfConnect4Board];
     }
     return self;
 }
@@ -59,19 +62,20 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
     [player.unplayedPieces removeLastObject];
     
     BOOL didWin = [self playedPieceWinsGameAtLocation:playedLocation];
-    return (didWin) ? RIVGameBoardPlayStateWinningMove : RIVGameBoardPlayStatePlayed;
+    if (didWin) return RIVGameBoardPlayStateWinningMove;
+    self.playerToAct = [self nextPlayersTurn];
+    return RIVGameBoardPlayStatePlayed;
 }
 
 - (RIVGridLocation *)nextAvailableLocationForColumn:(NSInteger)column
 {
-    RIVGridLocation *tempGridLocation;
+    RIVGridLocation *tempGridLocation = nil;
     NSInteger row = 0;
     while (row < numberOfRows) {
         tempGridLocation = self.grid[row][column];
         if (!tempGridLocation.piece) return tempGridLocation;
         row++;
     }
-    
     return nil;
 }
 
@@ -80,17 +84,17 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
     RIVGridLocation *searchLocation = playedPieceLocation;
     SearchDirection currentDirection = SearchDirectionWest;
     BOOL shouldChangeDirection = NO;
-    NSInteger searchRow = searchLocation.row + [self horizontalDeltaFor:currentDirection];
-    NSInteger searchColumn = searchLocation.column + [self verticalDeltaFor:currentDirection];
+    NSInteger searchRow = searchLocation.row + [self verticalDeltaFor:currentDirection];
+    NSInteger searchColumn = searchLocation.column + [self horizontalDeltaFor:currentDirection];
     NSInteger piecesInARow = 1;
     
-    while (piecesInARow < 4 || currentDirection == SearchDirectionNone) {
+    while (piecesInARow < 4 && currentDirection != SearchDirectionNone) {
         if (searchRow < 0 || searchRow >= numberOfRows || searchColumn < 0 || searchColumn >= numberOfColumns) {
             shouldChangeDirection = YES;
         } else {
             searchLocation = self.grid[searchRow][searchColumn];
             if (playedPieceLocation.piece.color == searchLocation.piece.color) piecesInARow++;
-                else shouldChangeDirection = YES;
+            else shouldChangeDirection = YES;
         }
         
         if (shouldChangeDirection) {
@@ -100,8 +104,8 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
             shouldChangeDirection = NO;
         }
         
-        searchRow = searchLocation.row + [self horizontalDeltaFor:currentDirection];
-        searchColumn = searchLocation.column + [self verticalDeltaFor:currentDirection];
+        searchRow = searchLocation.row + [self verticalDeltaFor:currentDirection];
+        searchColumn = searchLocation.column + [self horizontalDeltaFor:currentDirection];
     }
     
     return (piecesInARow >= 4) ? YES : NO;
@@ -143,6 +147,14 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
         default:
             return 0;
     }
+}
+
+- (RIVPlayer *)nextPlayersTurn
+{
+    NSInteger nextPlayerIndex = [self.players indexOfObject:self.playerToAct] + 1;
+    if (nextPlayerIndex >= self.players.count) nextPlayerIndex = 0;
+    
+    return self.players[nextPlayerIndex];
 }
 
 

@@ -23,10 +23,9 @@
     self = [super init];
     if (self) {
         self.color = color;
-        
         self.unplayedPieces = [NSMutableArray new];
         for (NSInteger i = 0; i < count; i++) {
-            RIVGamePiece *newPiece = [RIVGamePiece pieceWithColor:color];
+            RIVGamePiece *newPiece = [[RIVGamePiece alloc] initWithColor:self.color];
             [self.unplayedPieces addObject:newPiece];
         }
     }
