@@ -20,7 +20,7 @@
                                 <rect key="frame" x="37" y="95" width="245" height="219"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap to Play Piece" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdL-U5-2dx">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tap or Drag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AdL-U5-2dx">
                                         <rect key="frame" x="20" y="91" width="205" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -35,35 +35,35 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Hb-7F-zvB">
-                                <rect key="frame" x="37" y="95" width="1" height="219"/>
+                                <rect key="frame" x="37" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n28-9d-2Q3">
-                                <rect key="frame" x="72" y="95" width="1" height="219"/>
+                                <rect key="frame" x="72" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V1s-OR-dwz">
-                                <rect key="frame" x="107" y="95" width="1" height="219"/>
+                                <rect key="frame" x="107" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pvT-UV-q2s">
-                                <rect key="frame" x="142" y="95" width="1" height="219"/>
+                                <rect key="frame" x="142" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fd2-Qk-3qO">
-                                <rect key="frame" x="177" y="95" width="1" height="219"/>
+                                <rect key="frame" x="177" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yc7-lw-fXz">
-                                <rect key="frame" x="212" y="95" width="1" height="219"/>
+                                <rect key="frame" x="212" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ie-ut-n8Z">
-                                <rect key="frame" x="247" y="95" width="1" height="219"/>
+                                <rect key="frame" x="247" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Soe-Wb-f7c">
-                                <rect key="frame" x="282" y="95" width="1" height="219"/>
+                                <rect key="frame" x="282" y="95" width="1" height="438"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yCm-Pn-6z8">
@@ -86,6 +86,14 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="columnLine0" destination="4Hb-7F-zvB" id="Ezz-XD-C3o"/>
+                        <outlet property="columnLine1" destination="n28-9d-2Q3" id="CtC-5C-ljO"/>
+                        <outlet property="columnLine2" destination="V1s-OR-dwz" id="maO-Us-7Ik"/>
+                        <outlet property="columnLine3" destination="pvT-UV-q2s" id="Tgc-TG-dYU"/>
+                        <outlet property="columnLine4" destination="fd2-Qk-3qO" id="ZL3-jL-2du"/>
+                        <outlet property="columnLine5" destination="Yc7-lw-fXz" id="BFy-qr-aSd"/>
+                        <outlet property="columnLine6" destination="1Ie-ut-n8Z" id="3Ub-V2-2sl"/>
+                        <outlet property="columnLine7" destination="Soe-Wb-f7c" id="klB-p1-RrA"/>
                         <outlet property="gameImageView" destination="tWa-Zm-rjJ" id="6ni-uQ-NoJ"/>
                         <outlet property="playPieceView" destination="Wkl-uI-ab5" id="bXh-wJ-pLm"/>
                     </connections>

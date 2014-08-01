@@ -20,6 +20,17 @@ const NSInteger PieceViewHeight = 37;
 @property (weak, nonatomic) IBOutlet UIView *playPieceView;
 @property (weak, nonatomic) IBOutlet UIImageView *gameImageView;
 
+@property (weak, nonatomic) IBOutlet UIView *columnLine0;
+@property (weak, nonatomic) IBOutlet UIView *columnLine1;
+@property (weak, nonatomic) IBOutlet UIView *columnLine2;
+@property (weak, nonatomic) IBOutlet UIView *columnLine3;
+@property (weak, nonatomic) IBOutlet UIView *columnLine4;
+@property (weak, nonatomic) IBOutlet UIView *columnLine5;
+@property (weak, nonatomic) IBOutlet UIView *columnLine6;
+@property (weak, nonatomic) IBOutlet UIView *columnLine7;
+@property (strong, nonatomic) NSArray *columnLines;
+@property (assign, nonatomic) NSInteger highlightedColumn;
+
 @property (strong, nonatomic) RIVGameBoard *gameboard;
 @property (strong, nonatomic) UIImageView *currentPiece;
 @property (assign, nonatomic) CGPoint originalTouch;
@@ -51,6 +62,7 @@ const NSInteger PieceViewHeight = 37;
     
     self.gameImageView.image = [StyleKitName imageOfConnect4Board];
     self.lastPiecePlayedDate = [NSDate date];
+    self.highlightedColumn = -2;
     [self setupBarriers];
     [self setupAnimator];
     [self setupPlayPieceView];
@@ -123,7 +135,10 @@ const NSInteger PieceViewHeight = 37;
                 break;
             }
             case UIGestureRecognizerStateChanged: {
+                
                 self.currentPiece.frame = newFrame;
+                [self showColumnLinesForCurrentPiece];
+//                NSLog(@"column: %d", [self columnForCurrentPiece]);
                 break;
             }
             case UIGestureRecognizerStateEnded: {
@@ -181,6 +196,26 @@ const NSInteger PieceViewHeight = 37;
     [self.view bringSubviewToFront:self.gameImageView];
 }
 
+- (void)showColumnLinesForCurrentPiece
+{
+    [self turnLineAtIndex:self.highlightedColumn toColor:[UIColor clearColor]];
+    [self turnLineAtIndex:self.highlightedColumn + 1 toColor:[UIColor clearColor]];
+    
+    if (self.currentPiece) self.highlightedColumn = [self columnForCurrentPiece];
+    else self.highlightedColumn = -2;
+    
+    [self turnLineAtIndex:self.highlightedColumn toColor:[UIColor blackColor]];
+    [self turnLineAtIndex:self.highlightedColumn + 1 toColor:[UIColor blackColor]];
+}
+
+- (void)turnLineAtIndex:(NSInteger)index toColor:(UIColor *)color
+{
+    if (index >= 0 && index < self.columnLines.count) {
+        UIImageView *line = self.columnLines[index];
+        line.backgroundColor = color;
+    }
+}
+
 - (void)playPiece
 {
     RIVGameBoardPlayState gameState = [self.gameboard playGamePieceonColumn:[self columnForCurrentPiece]
@@ -197,9 +232,11 @@ const NSInteger PieceViewHeight = 37;
         case RIVGameBoardPlayStateNotPlayable:
         default:
             [self.currentPiece removeFromSuperview];
-            self.currentPiece = nil;
             break;
     }
+    
+    self.currentPiece = nil;
+    [self showColumnLinesForCurrentPiece];
 }
 
 - (NSInteger)columnForCurrentPiece
@@ -273,7 +310,6 @@ const NSInteger PieceViewHeight = 37;
 {
     if (!_collision) {
         _collision = [UICollisionBehavior new];
-//        _collision.translatesReferenceBoundsIntoBoundary = YES;
     }
     return _collision;
 }
@@ -285,6 +321,23 @@ const NSInteger PieceViewHeight = 37;
         _elasticity.elasticity = 0.5f;
     }
     return _elasticity;
+}
+
+- (NSArray *)columnLines
+{
+    if (!_columnLines) {
+        NSMutableArray *columnLines = [NSMutableArray new];
+        [columnLines addObject:self.columnLine0];
+        [columnLines addObject:self.columnLine1];
+        [columnLines addObject:self.columnLine2];
+        [columnLines addObject:self.columnLine3];
+        [columnLines addObject:self.columnLine4];
+        [columnLines addObject:self.columnLine5];
+        [columnLines addObject:self.columnLine6];
+        [columnLines addObject:self.columnLine7];
+        _columnLines = columnLines.copy;
+    }
+    return _columnLines;
 }
 
 @end
