@@ -12,5 +12,9 @@
 @interface RIVGridLocation : NSObject
 
 @property (strong, nonatomic) RIVGamePiece *piece;
+@property (assign, nonatomic) NSInteger row;
+@property (assign, nonatomic) NSInteger column;
+
+- (instancetype)initWithRow:(NSInteger)row andColumn:(NSInteger)column;
 
 @end
