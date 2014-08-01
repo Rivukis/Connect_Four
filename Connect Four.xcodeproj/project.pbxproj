@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FC8CB511982B96100D9DB19 /* StyleKitName.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC8CB501982B96100D9DB19 /* StyleKitName.m */; };
 		7A8CCCBC1917F34C00FDB2B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8CCCBB1917F34C00FDB2B2 /* Foundation.framework */; };
 		7A8CCCBE1917F34C00FDB2B2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8CCCBD1917F34C00FDB2B2 /* CoreGraphics.framework */; };
 		7A8CCCC01917F34C00FDB2B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8CCCBF1917F34C00FDB2B2 /* UIKit.framework */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FC8CB4F1982B96100D9DB19 /* StyleKitName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleKitName.h; sourceTree = "<group>"; };
+		0FC8CB501982B96100D9DB19 /* StyleKitName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyleKitName.m; sourceTree = "<group>"; };
 		7A8CCCB81917F34C00FDB2B2 /* Connect Four.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Connect Four.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A8CCCBB1917F34C00FDB2B2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7A8CCCBD1917F34C00FDB2B2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -97,6 +100,8 @@
 		0FC8CB4E1982254700D9DB19 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				0FC8CB4F1982B96100D9DB19 /* StyleKitName.h */,
+				0FC8CB501982B96100D9DB19 /* StyleKitName.m */,
 			);
 			name = Media;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				7A8CCCF91917F6A200FDB2B2 /* RIVGameBoard.m in Sources */,
 				7A8CCD01191840EA00FDB2B2 /* RIVMainViewController.m in Sources */,
 				7A8CCCF51917F68A00FDB2B2 /* RIVPlayer.m in Sources */,
+				0FC8CB511982B96100D9DB19 /* StyleKitName.m in Sources */,
 				7AE678CE197B4226009BDD3A /* RIVGridLocation.m in Sources */,
 				7A8CCCFD1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */,
 				7A8CCCCC1917F34C00FDB2B2 /* RIVAppDelegate.m in Sources */,
