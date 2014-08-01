@@ -27,6 +27,12 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
     SearchDirectionNone
 };
 
+@interface RIVGameBoard ()
+
+@property (assign, nonatomic) NSInteger piecesPlayedCount;
+
+@end
+
 @implementation RIVGameBoard
 
 - (instancetype)initWithTwoPlayers
@@ -40,9 +46,7 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
         NSInteger firstPlayerToActIndex = arc4random_uniform(self.players.count);
         self.playerToAct = self.players[firstPlayerToActIndex];
         
-        CGRect gameboardRect = CGRectMake(15, 314, 290, 254);
-        UIImageView *gameboardView = [[UIImageView alloc] initWithFrame:gameboardRect];
-        gameboardView.image = [StyleKitName imageOfConnect4Board];
+        self.piecesPlayedCount = 0;
     }
     return self;
 }
@@ -53,16 +57,28 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
 
 - (RIVGameBoardPlayState)playGamePieceonColumn:(NSInteger)column fromPlayer:(RIVPlayer *)player
 {
-    if (!player || !player.unplayedPieces.count || column < 0 || column >= numberOfColumns) return RIVGameBoardPlayStateNotPlayable;
+    if (!player || !player.unplayedPieces.count || column < 0 || column >= numberOfColumns || self.gameHasEnded) {
+        return RIVGameBoardPlayStateNotPlayable;
+    }
     
     RIVGridLocation *playedLocation = [self nextAvailableLocationForColumn:column];
     if (!playedLocation) return RIVGameBoardPlayStateNotPlayable;
     
     playedLocation.piece = player.unplayedPieces.lastObject;
     [player.unplayedPieces removeLastObject];
+    self.piecesPlayedCount++;
     
     BOOL didWin = [self playedPieceWinsGameAtLocation:playedLocation];
-    if (didWin) return RIVGameBoardPlayStateWinningMove;
+    if (didWin) {
+        self.gameHasEnded = YES;
+        return RIVGameBoardPlayStateWinningMove;
+    }
+    
+    if (self.piecesPlayedCount == numberOfColumns * numberOfRows) {
+        self.gameHasEnded = YES;
+        return RIVGameBoardPlayStateDraw;
+    }
+    
     self.playerToAct = [self nextPlayersTurn];
     return RIVGameBoardPlayStatePlayed;
 }

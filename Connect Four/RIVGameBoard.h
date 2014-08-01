@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, RIVGameBoardPlayState) {
 @property (strong, nonatomic) NSArray *grid; // 2-Dimensional Array of RIVGridLocation
 @property (strong, nonatomic) NSArray *players; // of RIVPlayer
 @property (weak, nonatomic) RIVPlayer *playerToAct; // Player to Act Next
-@property (strong, nonatomic) UIImageView *view;
+@property (assign, nonatomic) BOOL gameHasEnded;
 
 - (instancetype)initWithTwoPlayers;
 - (RIVGameBoardPlayState)playGamePieceonColumn:(NSInteger)column fromPlayer:(RIVPlayer *)player;

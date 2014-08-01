@@ -12,6 +12,9 @@
 #import "RIVGamePiece.h"
 #import "StyleKitName.h"
 
+const NSInteger PieceViewWidth = 35;
+const NSInteger PieceViewHeight = 37;
+
 @interface RIVMainViewController () <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playPieceView;
@@ -20,8 +23,7 @@
 @property (strong, nonatomic) RIVGameBoard *gameboard;
 @property (strong, nonatomic) UIImageView *currentPiece;
 @property (assign, nonatomic) CGPoint originalTouch;
-
-@property (strong, nonatomic) NSMutableArray *allPieces;
+@property (strong, nonatomic) NSDate *lastPiecePlayedDate;
 
 @property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) UIGravityBehavior *gravity;
@@ -31,6 +33,8 @@
 @end
 
 @implementation RIVMainViewController
+
+#pragma mark - Setup
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,18 +49,16 @@
 {
     [super viewDidLoad];
     
+    self.gameImageView.image = [StyleKitName imageOfConnect4Board];
+    self.lastPiecePlayedDate = [NSDate date];
     [self setupBarriers];
     [self setupAnimator];
     [self setupPlayPieceView];
-    
-    self.gameImageView.image = [StyleKitName imageOfConnect4Board];
 }
 
-- (void)setupAnimator
+- (void)didReceiveMemoryWarning
 {
-    [self.animator addBehavior:self.gravity];
-    [self.animator addBehavior:self.collision];
-    [self.animator addBehavior:self.elasticity];
+    [super didReceiveMemoryWarning];
 }
 
 - (void)setupBarriers
@@ -72,75 +74,70 @@
     [self.collision addBoundaryWithIdentifier:@"Vertical8" fromPoint:CGPointMake(282, 314) toPoint:CGPointMake(282, 533)];
 }
 
+- (void)setupAnimator
+{
+    [self.animator addBehavior:self.gravity];
+    [self.animator addBehavior:self.collision];
+    [self.animator addBehavior:self.elasticity];
+}
+
 - (void)setupPlayPieceView
 {
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playPiece:)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(attemptPlayPieceWithGesture:)];
     tapGesture.delegate = self;
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(playPiece:)];
+    [self.playPieceView addGestureRecognizer:tapGesture];
+    
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(attemptPlayPieceWithGesture:)];
     panGesture.delegate = self;
     panGesture.maximumNumberOfTouches = 1;
-    [self.playPieceView addGestureRecognizer:tapGesture];
     [self.playPieceView addGestureRecognizer:panGesture];
 }
 
-- (void)playPiece:(id)sender
+
+#pragma mark - Playing the Game
+
+
+- (void)attemptPlayPieceWithGesture:(id)sender
 {
+    if (self.gameboard.gameHasEnded || [self.lastPiecePlayedDate timeIntervalSinceNow] > -0.7) return;
     
     if ([sender isKindOfClass:[UITapGestureRecognizer class]]) {
-        NSLog(@"tap gesture");
         UITapGestureRecognizer *tap = sender;
+        CGPoint location = [tap locationInView:self.view];
+        CGRect newFrame = [self cgRectForPieceWithOriginalRect:CGRectMake(location.x, location.y, PieceViewWidth, PieceViewHeight)];
         
+        [self addNextPieceToViewWithFrame:newFrame];
+        [self playPiece];
         
     } else if ([sender isKindOfClass:[UIPanGestureRecognizer class]]) {
         UIPanGestureRecognizer *pan = sender;
         CGPoint translation = [pan translationInView:self.playPieceView];
-//        CGPoint location = [pan locationInView:self.view];
+        CGPoint location = [pan locationInView:self.view];
         
-        if (pan.state == UIGestureRecognizerStateBegan) self.originalTouch = [pan locationInView:self.view];
-        CGRect newRect = [self cgRectForPieceWithOriginalRect:CGRectMake(self.originalTouch.x + translation.x,
-                                                                         self.originalTouch.y + translation.y,
-                                                                         35,
-                                                                         37)];
-        
+        if (pan.state == UIGestureRecognizerStateBegan) self.originalTouch = location;
+        CGRect newFrame = [self cgRectForPieceWithOriginalRect:CGRectMake(self.originalTouch.x + translation.x, self.originalTouch.y + translation.y, PieceViewWidth, PieceViewHeight)];
         
         switch (pan.state) {
             case UIGestureRecognizerStateBegan: {
-                self.currentPiece = [self newGamePieceViewForColor:self.gameboard.playerToAct.color withFrame:newRect];
-                [self.view addSubview:self.currentPiece];
-                [self.view bringSubviewToFront:self.gameImageView];
-                
+                [self addNextPieceToViewWithFrame:newFrame];
                 break;
             }
             case UIGestureRecognizerStateChanged: {
-                self.currentPiece.frame = newRect;
+                self.currentPiece.frame = newFrame;
                 break;
             }
             case UIGestureRecognizerStateEnded: {
-                
-                
-                RIVGameBoardPlayState gameState = [self.gameboard playGamePieceonColumn:[self columnForCurrentPiece] fromPlayer:self.gameboard.playerToAct];
-                if (gameState != RIVGameBoardPlayStateNotPlayable) {
-                    [self.gravity addItem:self.currentPiece];
-                    [self.collision addItem:self.currentPiece];
-                    [self.elasticity addItem:self.currentPiece];
-                } else {
-                    [self.currentPiece removeFromSuperview];
-                }
-                
-                
-                NSLog(@"played state: %d", gameState);
+                [self playPiece];
                 break;
             }
             case UIGestureRecognizerStateCancelled: {
-                NSLog(@"pan Cancelled");
+                [self.currentPiece removeFromSuperview];
+                self.currentPiece = nil;
                 break;
             }
             default:
                 break;
         }
-        
-//        NSLog(@"translation .X: %f .Y %f", translation.x, translation.y);
-//        NSLog(@"original .X: %f .Y %f", self.originalTouch.x, self.originalTouch.y);
     }
 }
 
@@ -151,8 +148,7 @@
     NSInteger minX = self.playPieceView.frame.origin.x;
     NSInteger maxX = self.playPieceView.frame.origin.x + self.playPieceView.frame.size.width - originalRect.size.width;
     
-    newX = roundf((newX - self.playPieceView.frame.origin.x) / 35) * 35 + self.playPieceView.frame.origin.x;
-    
+    newX = roundf((newX - self.playPieceView.frame.origin.x) / PieceViewWidth) * PieceViewWidth + self.playPieceView.frame.origin.x;
     if (newX < minX) newX = minX;
     if (newX > maxX) newX = maxX;
     
@@ -178,15 +174,62 @@
     return newPiece;
 }
 
-- (NSInteger)columnForCurrentPiece
+- (void)addNextPieceToViewWithFrame:(CGRect)frame
 {
-    return (self.currentPiece.frame.origin.x - self.playPieceView.frame.origin.x) / 35;
+    self.currentPiece = [self newGamePieceViewForColor:self.gameboard.playerToAct.color withFrame:frame];
+    [self.view addSubview:self.currentPiece];
+    [self.view bringSubviewToFront:self.gameImageView];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)playPiece
 {
-    [super didReceiveMemoryWarning];
+    RIVGameBoardPlayState gameState = [self.gameboard playGamePieceonColumn:[self columnForCurrentPiece]
+                                                                 fromPlayer:self.gameboard.playerToAct];
+    switch (gameState) {
+        case RIVGameBoardPlayStatePlayed:
+        case RIVGameBoardPlayStateDraw:
+        case RIVGameBoardPlayStateWinningMove:
+            [self.gravity addItem:self.currentPiece];
+            [self.collision addItem:self.currentPiece];
+            [self.elasticity addItem:self.currentPiece];
+            self.lastPiecePlayedDate = [NSDate date];
+            break;
+        case RIVGameBoardPlayStateNotPlayable:
+        default:
+            [self.currentPiece removeFromSuperview];
+            self.currentPiece = nil;
+            break;
+    }
 }
+
+- (NSInteger)columnForCurrentPiece
+{
+    return (self.currentPiece.frame.origin.x - self.playPieceView.frame.origin.x) / PieceViewWidth;
+}
+
+
+#pragma mark - User Actions
+
+
+- (IBAction)newGamePressed:(UIButton *)sender
+{
+    [self.collision removeAllBoundaries];
+    [self performSelector:@selector(resetGame) withObject:nil afterDelay:1.5];
+}
+
+- (void)resetGame
+{
+    [self.animator removeAllBehaviors];
+    self.gravity = nil;
+    self.elasticity = nil;
+    self.collision = nil;
+    
+    [self setupBarriers];
+    [self setupAnimator];
+    
+    self.gameboard = nil;
+}
+
 
 
 #pragma mark - UIGestureRecognizer Delegate
@@ -221,7 +264,7 @@
 {
     if (!_gravity) {
         _gravity = [UIGravityBehavior new];
-        _gravity.magnitude = 0.5;
+        _gravity.magnitude = 1.0;
     }
     return _gravity;
 }
