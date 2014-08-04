@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FB7F5AB198C01BE002CCCC5 /* PCConnect4.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FB7F5AA198C01BE002CCCC5 /* PCConnect4.m */; };
 		7A2A0C40198227EA0023BA0E /* StyleKitName.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A2A0C3F198227EA0023BA0E /* StyleKitName.m */; };
 		7A8CCCBC1917F34C00FDB2B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8CCCBB1917F34C00FDB2B2 /* Foundation.framework */; };
 		7A8CCCBE1917F34C00FDB2B2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A8CCCBD1917F34C00FDB2B2 /* CoreGraphics.framework */; };
@@ -42,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FB7F5A9198C01BE002CCCC5 /* PCConnect4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCConnect4.h; sourceTree = "<group>"; };
+		0FB7F5AA198C01BE002CCCC5 /* PCConnect4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCConnect4.m; sourceTree = "<group>"; };
 		7A2A0C3E198227EA0023BA0E /* StyleKitName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleKitName.h; sourceTree = "<group>"; };
 		7A2A0C3F198227EA0023BA0E /* StyleKitName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyleKitName.m; sourceTree = "<group>"; };
 		7A8CCCB81917F34C00FDB2B2 /* Connect Four.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Connect Four.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +103,8 @@
 		0FC8CB4E1982254700D9DB19 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				0FB7F5A9198C01BE002CCCC5 /* PCConnect4.h */,
+				0FB7F5AA198C01BE002CCCC5 /* PCConnect4.m */,
 				7A2A0C3E198227EA0023BA0E /* StyleKitName.h */,
 				7A2A0C3F198227EA0023BA0E /* StyleKitName.m */,
 			);
@@ -318,6 +323,7 @@
 				7A8CCCFD1917F6B600FDB2B2 /* RIVGamePiece.m in Sources */,
 				7A8CCCCC1917F34C00FDB2B2 /* RIVAppDelegate.m in Sources */,
 				7A8CCCC81917F34C00FDB2B2 /* main.m in Sources */,
+				0FB7F5AB198C01BE002CCCC5 /* PCConnect4.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
