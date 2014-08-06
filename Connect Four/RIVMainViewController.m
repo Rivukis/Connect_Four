@@ -19,6 +19,8 @@ const NSInteger PieceViewHeight = 37;
 
 @property (weak, nonatomic) IBOutlet UIView *playPieceView;
 @property (weak, nonatomic) IBOutlet UIImageView *gameImageView;
+@property (weak, nonatomic) IBOutlet UILabel *gameEndedLabel;
+
 
 @property (weak, nonatomic) IBOutlet UIView *columnLine0;
 @property (weak, nonatomic) IBOutlet UIView *columnLine1;
@@ -221,9 +223,10 @@ const NSInteger PieceViewHeight = 37;
     RIVGameBoardPlayState gameState = [self.gameboard playGamePieceonColumn:[self columnForCurrentPiece]
                                                                  fromPlayer:self.gameboard.playerToAct];
     switch (gameState) {
-        case RIVGameBoardPlayStatePlayed:
         case RIVGameBoardPlayStateDraw:
         case RIVGameBoardPlayStateWinningMove:
+            [self gameEndedWithPlayState:gameState];
+        case RIVGameBoardPlayStatePlayed:
             [self.gravity addItem:self.currentPiece];
             [self.collision addItem:self.currentPiece];
             [self.elasticity addItem:self.currentPiece];
@@ -239,6 +242,24 @@ const NSInteger PieceViewHeight = 37;
     [self showColumnLinesForCurrentPiece];
 }
 
+- (void)gameEndedWithPlayState:(RIVGameBoardPlayState)gameState
+{
+    [self.view bringSubviewToFront:self.gameEndedLabel];
+    
+    if (gameState == RIVGameBoardPlayStateDraw) {
+        self.gameEndedLabel.textColor = [UIColor blackColor];
+        self.gameEndedLabel.text = @"The game is a draw";
+    } else if (gameState == RIVGameBoardPlayStateWinningMove) {
+        if (self.gameboard.playerToAct.color == RIVGamePieceColorBlue) {
+            self.gameEndedLabel.textColor = [UIColor blueColor];
+            self.gameEndedLabel.text = @"Blue Player Wins";
+        } else if (self.gameboard.playerToAct.color == RIVGamePieceColorRed) {
+            self.gameEndedLabel.textColor = [UIColor redColor];
+            self.gameEndedLabel.text = @"Red Player Wins";
+        }
+    }
+}
+
 - (NSInteger)columnForCurrentPiece
 {
     return (self.currentPiece.frame.origin.x - self.playPieceView.frame.origin.x) / PieceViewWidth;
@@ -250,6 +271,8 @@ const NSInteger PieceViewHeight = 37;
 
 - (IBAction)newGamePressed:(UIButton *)sender
 {
+    self.gameEndedLabel.textColor = [UIColor blackColor];
+    self.gameEndedLabel.text = @"New Game";
     [self.collision removeAllBoundaries];
     [self performSelector:@selector(resetGame) withObject:nil afterDelay:1.5];
 }
@@ -265,8 +288,8 @@ const NSInteger PieceViewHeight = 37;
     [self setupAnimator];
     
     self.gameboard = nil;
+    self.gameEndedLabel.text = @"";
 }
-
 
 
 #pragma mark - UIGestureRecognizer Delegate

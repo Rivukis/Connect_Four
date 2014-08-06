@@ -43,7 +43,7 @@ typedef NS_ENUM (NSInteger, SearchDirection) {
         RIVPlayer *secondPlayer = [[RIVPlayer alloc] initWithColor:RIVGamePieceColorRed andPieceCount:21];
         self.players = @[firstPlayer, secondPlayer];
         
-        NSInteger firstPlayerToActIndex = arc4random_uniform(self.players.count);
+        NSInteger firstPlayerToActIndex = arc4random_uniform((int)self.players.count);
         self.playerToAct = self.players[firstPlayerToActIndex];
         
         self.piecesPlayedCount = 0;
