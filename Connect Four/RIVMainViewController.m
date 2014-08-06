@@ -137,10 +137,8 @@ const NSInteger PieceViewHeight = 37;
                 break;
             }
             case UIGestureRecognizerStateChanged: {
-                
                 self.currentPiece.frame = newFrame;
                 [self showColumnLinesForCurrentPiece];
-//                NSLog(@"column: %d", [self columnForCurrentPiece]);
                 break;
             }
             case UIGestureRecognizerStateEnded: {
@@ -244,8 +242,6 @@ const NSInteger PieceViewHeight = 37;
 
 - (void)gameEndedWithPlayState:(RIVGameBoardPlayState)gameState
 {
-    [self.view bringSubviewToFront:self.gameEndedLabel];
-    
     if (gameState == RIVGameBoardPlayStateDraw) {
         self.gameEndedLabel.textColor = [UIColor blackColor];
         self.gameEndedLabel.text = @"The game is a draw";
